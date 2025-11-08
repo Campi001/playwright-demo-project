@@ -16,6 +16,11 @@
 - `pnpm ci` — последовательно гоняет все проверки.
 > Пакеты в `apps/*` и `tests/*` будут добавлены на следующих этапах, поэтому эти команды являются заглушками до появления соответствующих workspace-проектов.
 
+## CI
+- `.github/workflows/ci.yml` гоняет lint/unit/integration/e2e на Ubuntu, Node 20 и pnpm 9.
+- Используются root-скрипты (`pnpm test:*`), перед e2e ставятся браузеры `pnpm exec playwright install --with-deps`.
+- Ветка `main` и любые PR запускают пайплайн автоматически.
+
 ## Тулчейн
 - Node.js ≥ 20, pnpm 9
 - TypeScript 5.9.3 (strict)
@@ -41,4 +46,5 @@ pnpm install
 
 ## Статус
 - Стадия 1 (root scaffolding) завершена: базовые конфиги, workspace, линтинг и форматтер — ✅
+- Стадия 1.2 (CI) завершена: GitHub Actions workflow создан и запускает все проверки — ✅
 - Далее: имплементация backend/frontend приложений, тестов и отчётности.
