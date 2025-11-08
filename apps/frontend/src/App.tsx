@@ -1,8 +1,15 @@
+import { LoginPage } from './pages/LoginPage';
+
 export default function App() {
   return (
-    <main>
-      <h1>Frontend Ready</h1>
-      <p>Start building your UI in apps/frontend/src/App.tsx.</p>
+    <main
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#f8fafc',
+        fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif',
+      }}
+    >
+      <LoginPage />
     </main>
   );
 }
