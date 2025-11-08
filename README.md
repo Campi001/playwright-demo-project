@@ -15,7 +15,7 @@
 - `pnpm test:e2e`
 - `pnpm ci` — последовательно гоняет все проверки.
 
-На данный момент реализован `apps/backend`; скрипты для остальных workspace заработают после их добавления.
+На данный момент реализованы `apps/backend` и базовый скелет `apps/frontend`; `tests/e2e` появится позже.
 
 ## Backend
 - `pnpm --filter ./apps/backend dev` — запуск Express-сервера (порт берётся из `env.PORT`).
@@ -40,7 +40,7 @@
 ```sh
 pnpm install
 ```
-Пока достаточно установки зависимостей; дев‑серверы появятся после создания приложений в `apps/`.
+После установки зависимостей доступны `pnpm dev:backend` и `pnpm dev:frontend`; пространство `tests/e2e` появится позже.
 
 ## Env переменные
 Скопируй `.env.example` → `.env` и задай:
@@ -56,5 +56,6 @@ pnpm install
 ## Статус
 - Стадия 1 (root scaffolding) завершена: базовые конфиги, workspace, линтинг и форматтер — ✅
 - Стадия 1.2 (CI) завершена: GitHub Actions workflow создан и запускает все проверки — ✅
-- Стадия 2.1 (Backend) в прогрессе: Express-приложение и unit/integration тесты готовы — ✅
-- Далее: фронтенд (React/Vite) и Playwright E2E (`tests/e2e`) + отчётность Allure.
+- Стадия 2.1 (Backend) завершена: Express-приложение и unit/integration тесты готовы — ✅
+- Стадия 3.1 (Frontend skeleton) завершена: Vite + React + TS, базовый `App` ждёт реализации UI/логики — ✅
+- Далее: полноценные фронтенд-компоненты, `tests/e2e` (Playwright) и отчётность Allure.

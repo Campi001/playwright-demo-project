@@ -13,3 +13,4 @@ pnpm-debug.log
 playwright-report
 test-results
 codex-context.md
+*.tsbuildinfo
