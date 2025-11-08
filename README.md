@@ -18,7 +18,7 @@
 
 ## CI
 - `.github/workflows/ci.yml` гоняет lint/unit/integration/e2e на Ubuntu, Node 20 и pnpm 9.
-- Используются root-скрипты (`pnpm test:*`), перед e2e ставятся браузеры `pnpm exec playwright install --with-deps`.
+- Используются root-скрипты (`pnpm test:*`), перед e2e ставятся браузеры через `pnpm dlx playwright install --with-deps`.
 - Ветка `main` и любые PR запускают пайплайн автоматически.
 
 ## Тулчейн
