@@ -12,6 +12,7 @@
     "test:unit": "pnpm -r run test:unit",
     "test:integration": "pnpm -r run test:integration",
     "test:e2e": "pnpm -r run test:e2e",
+    "playwright:browsers": "pnpm --filter @playwright-demo/tests-e2e exec playwright install --with-deps",
     "ci": "pnpm run test:lint && pnpm run test:unit && pnpm run test:integration && pnpm run test:e2e"
   },
   "devDependencies": {

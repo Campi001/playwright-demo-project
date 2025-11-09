@@ -50,6 +50,7 @@ pnpm install
 
 ## E2E (Playwright)
 - Workspace `tests/e2e` содержит Playwright-конфиг с автозапуском backend (`pnpm --filter @playwright-demo/backend dev:e2e`) и frontend (`pnpm --filter @playwright-demo/frontend dev`), а также дефолтные артефакты (trace/screenshot/video).
+- Перед первым запуском установи браузеры Playwright: `pnpm playwright:browsers`.
 - Запуск: `pnpm --filter @playwright-demo/tests-e2e test:e2e` или корневой `pnpm test:e2e`.
   > Требуются свободные порты: 3000 для backend и 5173 для frontend. В CI переменная `E2E_JWT_SECRET` переопределяет секрет при необходимости.
 
