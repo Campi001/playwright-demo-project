@@ -6,17 +6,9 @@ on:
       - main
   pull_request:
 
-permissions:
-  contents: read
-  actions: write
-  pages: write
-  id-token: write
-
 jobs:
   tests:
     runs-on: ubuntu-latest
-    outputs:
-      publish-allure: ${{ steps.allure_status.outputs.exists }}
 
     steps:
       - name: Checkout
@@ -88,22 +80,3 @@ jobs:
           name: allure-report
           path: allure-report
           if-no-files-found: ignore
-
-      - name: Upload GitHub Pages artifact
-        if: always() && steps.allure_status.outputs.exists == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: allure-report
-
-  deploy-allure:
-    needs: tests
-    if: always() && needs.tests.outputs.publish-allure == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: github-pages
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - name: Deploy Allure to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

@@ -32,7 +32,7 @@
 
 - `.github/workflows/ci.yml` гоняет lint/unit/integration/e2e на Ubuntu, Node 20 и pnpm 9.
 - Используются root-скрипты (`pnpm test:*`), перед e2e ставятся браузеры через `pnpm dlx playwright install --with-deps`.
-- После прогонов Allure-отчёт собирается командой `pnpm run allure:report`, артефакты `allure-results` + `allure-report` публикуются в Actions, а готовый HTML при пуше в `main` автоматически деплоится в GitHub Pages (окружение `github-pages`) — можно открывать отчёт прямо в браузере без скачивания.
+- После прогонов Allure-отчёт собирается командой `pnpm run allure:report`, а артефакты `allure-results` + `allure-report` прикрепляются к запуску Actions.
 - Ветка `main` и любые PR запускают пайплайн автоматически.
 
 ## Тулчейн
@@ -74,9 +74,7 @@ pnpm install
   - `pnpm run test:*` / `pnpm run test:e2e` собирают свежие результаты.
   - `pnpm run allure:report` объединит их в `./allure-report`.
   - `pnpm run allure:open` запустит встроенный веб-сервер Allure и откроет отчёт.
-- В CI после каждого прогона:
-  - артефактом сохраняется папка `allure-results` (можно скачать и открыть локально той же командой);
-  - при пушах в `main` HTML-версия деплоится в GitHub Pages (`Settings → Pages`, окружение `github-pages`). Итоговый URL имеет вид `https://<org>.github.io/<repo>/` и доступен прямо из вкладки **Actions** → выбранный запуск → вкладка **Deployments**.
+- В CI после каждого прогона артефактом сохраняются папки `allure-results` и `allure-report` (их можно скачать и открыть локально той же командой).
 
 ## Правила качества
 
