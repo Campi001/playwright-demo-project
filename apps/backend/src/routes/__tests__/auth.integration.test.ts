@@ -1,9 +1,36 @@
+import { spawnSync } from 'node:child_process';
+
 import request from 'supertest';
 import { describe, expect, it } from 'vitest';
 
-import { app } from '../../app';
+import { app } from '../../app.js';
 
-describe('Auth & Health routes', () => {
+const canBindHttpPort = (() => {
+  const probe = `
+    const { createServer } = require('node:http');
+    const server = createServer(() => {});
+    server.listen(0, () => server.close(() => process.exit(0)));
+    server.on('error', () => process.exit(1));
+    setTimeout(() => process.exit(1), 1000);
+  `;
+  const result = spawnSync(process.execPath, ['-e', probe], {
+    stdio: 'ignore',
+  });
+  return result.status === 0;
+})();
+
+const describeIfCanBindHttp = canBindHttpPort ? describe : describe.skip;
+
+if (!canBindHttpPort) {
+  if (process.env.CI === 'true') {
+    throw new Error('Backend integration tests require the ability to bind HTTP ports in CI.');
+  }
+  console.warn(
+    'Skipping backend integration tests: unable to bind HTTP ports in this environment.',
+  );
+}
+
+describeIfCanBindHttp('Auth & Health routes', () => {
   it('returns health status', async () => {
     const response = await request(app).get('/api/health');
 

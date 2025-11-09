@@ -15,13 +15,13 @@
 - `pnpm test:e2e`
 - `pnpm ci` — последовательно гоняет все проверки.
 
-На данный момент реализованы `apps/backend` и первичная версия `apps/frontend` с формой логина; `tests/e2e` появится позже.
+На данный момент реализованы `apps/backend`, текущая версия `apps/frontend` с формой логина и подготовленный workspace `tests/e2e` под Playwright.
 
 ## Backend
-- `pnpm --filter ./apps/backend dev` — запуск Express-сервера (порт берётся из `env.PORT`).
+- `pnpm --filter ./apps/backend dev` — запуск Express-сервера (порт берётся из `env.PORT`, при отсутствии `JWT_SECRET` в dev-режиме подставится безопасный заглушечный секрет; в CI/prod переменная обязательна).
 - `pnpm --filter ./apps/backend test:unit` — Vitest юнит-тесты (`AuthService`).
 - `pnpm --filter ./apps/backend test:integration` — Supertest интеграционные сценарии `/api/health`, `/api/auth/login`, `/api/auth/me`.  
-  > Для прогона нужен доступ к loopback-порту; в sandbox-средах без разрешений тесты падают с `listen EPERM`.
+  > Для прогона нужен доступ к loopback-порту; в sandbox-средах без разрешений тесты автоматически помечаются как skipped, в CI падение с ошибкой.
 - Эндпоинты работают с единственным хардкодным пользователем `demo/demo123`; пароль хранится в виде bcrypt-хеша.
 - JWT-хелперы живут в `src/utils/jwt.ts`, секрет обязателен (без дефолта). Для тестов используется `src/test-setup.ts`, который подставляет фейковый секрет.
 
@@ -47,6 +47,11 @@ pnpm install
 - `PORT` — порт backend (по умолчанию 4000)
 - `JWT_SECRET` — секрет для подписи токенов (минимум 32 символа)
 - `VITE_API_BASE` — базовый адрес API для фронта (например, `http://localhost:4000/api`)
+
+## E2E (Playwright)
+- Workspace `tests/e2e` содержит Playwright-конфиг с автозапуском backend (`pnpm --filter @playwright-demo/backend dev:e2e`) и frontend (`pnpm --filter @playwright-demo/frontend dev`), а также дефолтные артефакты (trace/screenshot/video).
+- Запуск: `pnpm --filter @playwright-demo/tests-e2e test:e2e` или корневой `pnpm test:e2e`.
+  > Требуются свободные порты: 3000 для backend и 5173 для frontend. В CI переменная `E2E_JWT_SECRET` переопределяет секрет при необходимости.
 
 ## Правила качества
 - TDD: сначала тест, затем код, потом рефакторинг.

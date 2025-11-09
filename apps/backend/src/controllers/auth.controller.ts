@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
 
-import { AuthError, AuthService } from '../services/auth.service';
+import { AuthError, AuthService } from '../services/auth.service.js';
 
 const authService = new AuthService();
 

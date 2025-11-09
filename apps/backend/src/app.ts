@@ -1,10 +1,10 @@
 import cors from 'cors';
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 
-import { authRouter } from './routes/auth';
-import { healthRouter } from './routes/health';
+import { authRouter } from './routes/auth.js';
+import { healthRouter } from './routes/health.js';
 
-const app = express();
+const app: Application = express();
 
 app.use(cors());
 app.use(express.json());

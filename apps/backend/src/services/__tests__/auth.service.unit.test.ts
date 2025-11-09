@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 
-import { AuthError, AuthService } from '../auth.service';
+import { AuthError, AuthService } from '../auth.service.js';
 
 describe('AuthService', () => {
   let service: AuthService;

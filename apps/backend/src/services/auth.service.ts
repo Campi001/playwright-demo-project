@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 
-import { PublicUser, User } from '../domain/user';
-import { signAuthToken, verifyAuthToken } from '../utils/jwt';
+import { PublicUser, User } from '../domain/user.js';
+import { signAuthToken, verifyAuthToken } from '../utils/jwt.js';
 
 export class AuthError extends Error {
   constructor(
