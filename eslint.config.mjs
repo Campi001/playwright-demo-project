@@ -23,11 +23,11 @@ const compatConfigs = compat.extends(
 
 export default [
   {
-    ignores: ['**/dist/**', '**/build/**', '**/node_modules/**'],
+    ignores: ['**/dist/**', '**/build/**', '**/node_modules/**', 'eslint.config.mjs'],
   },
   ...compatConfigs,
   {
-    files: ['**/*.{ts,tsx,js,jsx}'],
+    files: ['**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -106,7 +106,10 @@ export default [
         },
       ],
       '@typescript-eslint/no-use-before-define': ['error'],
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
   },
 ];

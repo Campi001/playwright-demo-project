@@ -32,6 +32,7 @@
 
 - `.github/workflows/ci.yml` гоняет lint/unit/integration/e2e на Ubuntu, Node 20 и pnpm 9.
 - Используются root-скрипты (`pnpm test:*`), перед e2e ставятся браузеры через `pnpm dlx playwright install --with-deps`.
+- После прогонов Allure-отчёт собирается командой `pnpm run allure:report`, артефакты `allure-results` + `allure-report` публикуются в Actions, а готовый HTML при пуше в `main` автоматически деплоится в GitHub Pages (окружение `github-pages`) — можно открывать отчёт прямо в браузере без скачивания.
 - Ветка `main` и любые PR запускают пайплайн автоматически.
 
 ## Тулчейн
@@ -39,7 +40,7 @@
 - Node.js ≥ 20, pnpm 9
 - TypeScript 5.9.3 (strict)
 - ESLint 9.39.1 (flat config, `eslint.config.mjs`) + @typescript-eslint/import/promise/prettier плагины, Airbnb-подобные правила
-- Vitest для unit/интеграции, Playwright для e2e, Allure Report (будет подключён позже)
+- Vitest для unit/интеграции, Playwright для e2e, Allure Report + CLI (`pnpm run allure:report|open`)
 
 ## Быстрый старт
 
@@ -65,6 +66,17 @@ pnpm install
 - Перед первым запуском установи браузеры Playwright: `pnpm playwright:browsers`.
 - Запуск: `pnpm --filter @playwright-demo/tests-e2e test:e2e` или корневой `pnpm test:e2e`.
   > Требуются свободные порты: 3000 для backend (Playwright задаёт `PORT=3000`) и 5173 для frontend. В CI переменная `E2E_JWT_SECRET` переопределяет секрет при необходимости.
+
+## Allure отчёты
+
+- Все тесты пишут результаты в `./allure-results/*`: `backend`, `backend-unit`, `backend-integration`, `frontend-unit`, `e2e`.
+- Для локального просмотра:
+  - `pnpm run test:*` / `pnpm run test:e2e` собирают свежие результаты.
+  - `pnpm run allure:report` объединит их в `./allure-report`.
+  - `pnpm run allure:open` запустит встроенный веб-сервер Allure и откроет отчёт.
+- В CI после каждого прогона:
+  - артефактом сохраняется папка `allure-results` (можно скачать и открыть локально той же командой);
+  - при пушах в `main` HTML-версия деплоится в GitHub Pages (`Settings → Pages`, окружение `github-pages`). Итоговый URL имеет вид `https://<org>.github.io/<repo>/` и доступен прямо из вкладки **Actions** → выбранный запуск → вкладка **Deployments**.
 
 ## Правила качества
 

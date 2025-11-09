@@ -14,12 +14,14 @@
     "test:e2e": "pnpm -r run test:e2e",
     "playwright:browsers": "pnpm --filter @playwright-demo/tests-e2e exec playwright install --with-deps",
     "ci": "pnpm run test:lint && pnpm run test:unit && pnpm run test:integration && pnpm run test:e2e",
+    "allure:report": "node ./scripts/create-allure-report.mjs",
+    "allure:open": "pnpm run allure:report && pnpm exec allure open allure-report",
     "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mts,cts,mjs,cjs}": [
       "pnpm exec prettier --write",
-      "pnpm exec eslint --max-warnings=0 --fix"
+      "pnpm exec eslint --max-warnings=0 --fix --no-warn-ignored"
     ],
     "*.{json,md,mdx,yml,yaml,css,scss,html}": "pnpm exec prettier --write"
   },
@@ -29,6 +31,7 @@
     "@eslint/js": "^9.18.0",
     "@typescript-eslint/eslint-plugin": "^8.46.3",
     "@typescript-eslint/parser": "^8.46.3",
+    "allure-commandline": "^2.30.0",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^9.1.2",
     "eslint-import-resolver-typescript": "^3.6.1",

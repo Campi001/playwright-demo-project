@@ -1,14 +1,28 @@
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { defineConfig } from '@playwright/test';
 
 const isCI = !!process.env.CI;
-const e2eJwtSecret =
-  process.env.E2E_JWT_SECRET ?? 'playwright-e2e-test-secret-1234567890';
+const e2eJwtSecret = process.env.E2E_JWT_SECRET ?? 'playwright-e2e-test-secret-1234567890';
+const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   retries: isCI ? 2 : 0,
   timeout: 30 * 1000,
+  reporter: [
+    ['list'],
+    [
+      'allure-playwright',
+      {
+        detail: true,
+        outputFolder: resolve(workspaceRoot, 'allure-results', 'e2e'),
+        suiteTitle: false,
+      },
+    ],
+  ],
   use: {
     baseURL: 'http://localhost:5173',
     trace: 'on',
