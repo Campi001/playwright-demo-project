@@ -44,15 +44,17 @@ pnpm install
 
 ## Env переменные
 Скопируй `.env.example` → `.env` и задай:
-- `PORT` — порт backend (по умолчанию 4000)
+- `PORT` — порт backend (по умолчанию 4000; Playwright e2e прогон принудительно выставляет 3000)
 - `JWT_SECRET` — секрет для подписи токенов (минимум 32 символа)
 - `VITE_API_BASE` — базовый адрес API для фронта (например, `http://localhost:4000/api`)
+
+> Порты по окружениям: dev/backend — 4000 (дефолт в `apps/backend/src/utils/env.ts`), e2e/backend — 3000, frontend — 5173.
 
 ## E2E (Playwright)
 - Workspace `tests/e2e` содержит Playwright-конфиг с автозапуском backend (`pnpm --filter @playwright-demo/backend dev:e2e`) и frontend (`pnpm --filter @playwright-demo/frontend dev`), а также дефолтные артефакты (trace/screenshot/video).
 - Перед первым запуском установи браузеры Playwright: `pnpm playwright:browsers`.
 - Запуск: `pnpm --filter @playwright-demo/tests-e2e test:e2e` или корневой `pnpm test:e2e`.
-  > Требуются свободные порты: 3000 для backend и 5173 для frontend. В CI переменная `E2E_JWT_SECRET` переопределяет секрет при необходимости.
+  > Требуются свободные порты: 3000 для backend (Playwright задаёт `PORT=3000`) и 5173 для frontend. В CI переменная `E2E_JWT_SECRET` переопределяет секрет при необходимости.
 
 ## Правила качества
 - TDD: сначала тест, затем код, потом рефакторинг.
@@ -66,3 +68,8 @@ pnpm install
 - Стадия 3.1 (Frontend skeleton) завершена: Vite + React + TS, базовый `App` ждёт реализации UI/логики — ✅
 - Стадия 3.2 (Login flow) завершена: API-клиент, `useAuth`, UI-компоненты и страница `LoginPage` без роутера — ✅
 - Далее: полноценные фронтенд-экраны, `tests/e2e` (Playwright) и отчётность Allure.
+
+## FAQ
+- **Почему API не тестируем Playwright'ом?** Playwright нужен для пользовательских сценариев; HTTP-контракты и edge-кейсы быстрее и стабильнее покрывает Vitest + Supertest на уровне сервера без браузера.
+- **Границы unit vs integration?** Unit — чистые функции/классы (`AuthService`, `jwt` utils) с моком внешних зависимостей; integration — слой HTTP + реальные middleware/хранилище, где проверяем связку Express-рут → сервис → ответ.
+- **Как масштабировать (DB, репозитории, Pact)?** Добавляем DB (например, Postgres в docker-compose), вводим репозитории как слой абстракции и контрактные тесты через Pact между backend и потребителями; пайплайн гоняет unit → integration → контракт → e2e.
