@@ -85,15 +85,6 @@ pnpm install
 - Conventional commits, не меняем структуру без обсуждения.
 - Husky + lint-staged: перед каждым коммитом автоматически гоняются `prettier --write` и `eslint --max-warnings=0 --fix` по изменённым файлам (активируются после `pnpm install`).
 
-## Статус
-
-- Стадия 1 (root scaffolding) завершена: базовые конфиги, workspace, линтинг и форматтер — ✅
-- Стадия 1.2 (CI) завершена: GitHub Actions workflow создан и запускает все проверки — ✅
-- Стадия 2.1 (Backend) завершена: Express-приложение и unit/integration тесты готовы — ✅
-- Стадия 3.1 (Frontend skeleton) завершена: Vite + React + TS, базовый `App` ждёт реализации UI/логики — ✅
-- Стадия 3.2 (Login flow) завершена: API-клиент, `useAuth`, UI-компоненты и страница `LoginPage` без роутера — ✅
-- Далее: полноценные фронтенд-экраны, `tests/e2e` (Playwright) и отчётность Allure.
-
 ## FAQ
 
 - **Почему API не тестируем Playwright'ом?** Playwright нужен для пользовательских сценариев; HTTP-контракты и edge-кейсы быстрее и стабильнее покрывает Vitest + Supertest на уровне сервера без браузера.
